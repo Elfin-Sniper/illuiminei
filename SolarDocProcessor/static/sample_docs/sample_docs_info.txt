@@ -1,0 +1,40 @@
+# Sample Documents Information
+
+This directory is for storing sample documents for testing and development.
+
+## Document Categories
+The system can classify these five types of solar-related documents:
+
+1. **Final Inspection Card (FIC)**
+   - Official approval from local building departments
+   - Shows final inspection status of solar installation
+
+2. **Interconnection Agreement**
+   - Agreement between homeowner and utility company
+   - Outlines terms for connecting solar system to the grid
+
+3. **PTO (Permission-To-Operate)**
+   - Formal approval from utility allowing solar system operation
+   - Final step in the solar installation process
+
+4. **Warranty Extension**
+   - Documents extending the standard warranty
+   - Particularly relevant for SolarEdge components
+
+5. **Interconnection / NEM Agreement**
+   - Net Energy Metering agreements
+   - Contains details about SREC (Solar Renewable Energy Credits)
+
+## Field Extraction
+The system extracts specific fields from each document type:
+
+- **FIC**: Property Address, FIC Image, Non-FIC-required proof
+- **Interconnection Agreement**: Home Address, Homeowner's Signature
+- **PTO**: Home Address, PTO Receive Date
+- **Warranty Extension**: Warranty proof, Serial Number
+- **NEM Agreement**: Document Name, Homeowner's Signature, Utility's Signature
+
+## Adding Sample Documents
+Place sample documents in this directory for testing purposes. Supported formats:
+- PDF (.pdf)
+- Images (.png, .jpg, .jpeg, .tiff, .tif)

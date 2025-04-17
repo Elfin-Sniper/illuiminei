@@ -1,0 +1,18 @@
+# Training Data Information
+
+This directory is for storing training data for the document classification model.
+
+## Model Files
+- document_classifier.pkl: The trained scikit-learn classifier model
+- tfidf_vectorizer.pkl: The fitted TF-IDF vectorizer
+
+## Training Process
+The training process uses example documents for each of the 5 categories:
+1. Final Inspection Card (FIC)
+2. Interconnection Agreement
+3. PTO (Permission-To-Operate)
+4. Warranty Extension
+5. Interconnection / NEM Agreement (for SREC)
+
+## Running the Training
+To train the model with provided example data, run:

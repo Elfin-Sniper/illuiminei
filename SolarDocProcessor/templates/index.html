@@ -1,0 +1,176 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h3 class="card-title mb-0">
+                    <i class="fas fa-file-alt me-2"></i>Document Classification & Information Extraction
+                </h3>
+            </div>
+            <div class="card-body">
+                <p class="lead">Upload solar-related documents for automatic classification and information extraction.</p>
+                
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Supported Document Types</h5>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item bg-transparent">
+                                        <i class="fas fa-check-circle text-success me-2"></i>Final Inspection Card (FIC)
+                                    </li>
+                                    <li class="list-group-item bg-transparent">
+                                        <i class="fas fa-check-circle text-success me-2"></i>Interconnection Agreement
+                                    </li>
+                                    <li class="list-group-item bg-transparent">
+                                        <i class="fas fa-check-circle text-success me-2"></i>PTO (Permission-To-Operate)
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item bg-transparent">
+                                        <i class="fas fa-check-circle text-success me-2"></i>Warranty Extension
+                                    </li>
+                                    <li class="list-group-item bg-transparent">
+                                        <i class="fas fa-check-circle text-success me-2"></i>Interconnection / NEM Agreement
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <form action="{{ url_for('upload_file') }}" method="post" enctype="multipart/form-data" id="uploadForm">
+                    <div class="mb-4">
+                        <div class="document-upload-area p-4 text-center border rounded">
+                            <div class="upload-icon mb-3">
+                                <i class="fas fa-cloud-upload-alt fa-4x text-primary"></i>
+                            </div>
+                            <h5>Drag & Drop Documents Here</h5>
+                            <p class="text-muted">or</p>
+                            <div class="input-group">
+                                <input type="file" class="form-control" id="document" name="document" accept=".pdf,.png,.jpg,.jpeg,.tiff,.tif">
+                                <button class="btn btn-primary" type="submit" id="uploadBtn">
+                                    <i class="fas fa-upload me-2"></i>Upload
+                                </button>
+                            </div>
+                            <small class="form-text text-muted mt-2">
+                                Supported formats: PDF, PNG, JPG, JPEG, TIFF (.pdf, .png, .jpg, .jpeg, .tiff, .tif)
+                            </small>
+                        </div>
+                    </div>
+                    
+                    <div id="uploadStatus" class="d-none">
+                        <div class="d-flex align-items-center">
+                            <div class="spinner-border text-primary me-3" role="status">
+                                <span class="visually-hidden">Processing...</span>
+                            </div>
+                            <div>
+                                <h5 class="mb-1">Processing Document</h5>
+                                <p class="text-muted mb-0">Please wait while we analyze your document...</p>
+                            </div>
+                        </div>
+                        <div class="progress mt-3">
+                            <div id="uploadProgress" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <div class="card mt-4 shadow-sm">
+            <div class="card-header bg-secondary text-white">
+                <h5 class="mb-0">Information We Extract</h5>
+            </div>
+            <div class="card-body">
+                <div class="accordion" id="extractionAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ficInfo">
+                                Final Inspection Card (FIC)
+                            </button>
+                        </h2>
+                        <div id="ficInfo" class="accordion-collapse collapse" data-bs-parent="#extractionAccordion">
+                            <div class="accordion-body">
+                                <ul>
+                                    <li>Full image of the FIC (if available)</li>
+                                    <li>Property Address</li>
+                                    <li>Proof of non-FIC-required region (if applicable)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#interconnectionInfo">
+                                Interconnection Agreement
+                            </button>
+                        </h2>
+                        <div id="interconnectionInfo" class="accordion-collapse collapse" data-bs-parent="#extractionAccordion">
+                            <div class="accordion-body">
+                                <ul>
+                                    <li>Home Address</li>
+                                    <li>Homeowner's Signature</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ptoInfo">
+                                PTO (Permission-To-Operate)
+                            </button>
+                        </h2>
+                        <div id="ptoInfo" class="accordion-collapse collapse" data-bs-parent="#extractionAccordion">
+                            <div class="accordion-body">
+                                <ul>
+                                    <li>Home Address</li>
+                                    <li>PTO Receive Date</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#warrantyInfo">
+                                Warranty Extension
+                            </button>
+                        </h2>
+                        <div id="warrantyInfo" class="accordion-collapse collapse" data-bs-parent="#extractionAccordion">
+                            <div class="accordion-body">
+                                <ul>
+                                    <li>Proof of warranty document for SolarEdge projects</li>
+                                    <li>Serial Number (from warranty document and SolarEdge monitoring portal)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#nemInfo">
+                                Interconnection / NEM Agreement
+                            </button>
+                        </h2>
+                        <div id="nemInfo" class="accordion-collapse collapse" data-bs-parent="#extractionAccordion">
+                            <div class="accordion-body">
+                                <ul>
+                                    <li>Document Name</li>
+                                    <li>Homeowner's Signature</li>
+                                    <li>Utility's Signature</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
